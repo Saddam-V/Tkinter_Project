@@ -1,0 +1,24 @@
+      Welcome
+User:	Saleem
+Date:	2022-11-15
+
+Bill Number:	176
+Customer Name:	abc
+Phone Number:	123456790
+
+==============================
+Cat  Color  QTY  Rate  Price
+==============================
+1108 - 2 - 4.25 - 3.69  -  15.68
+
+
+========================
+Total Paybill Amount :	  15.68
+
+========================
+
+
+
+
+
+.

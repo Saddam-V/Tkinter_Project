@@ -17,7 +17,8 @@ import os
 import win32api
 import random
 from tkinter import filedialog
-
+import tkinter.simpledialog
+import sys
 
 LARGEFONT = ("Verdana", 35)
 
@@ -42,7 +43,7 @@ class tkinterApp(tk.Tk):
 
         # iterating through a tuple consisting
         # of the different page layouts
-        for F in (Home, stock, rpay, bill, user, rtrn):
+        for F in (Home, stock, rpay, bill, rtrn):
 
             frame = F(container, self)
 
@@ -95,12 +96,12 @@ class Home(tk.Frame):
         # using grid
         button3.pack(fill=BOTH, expand=True)
 
-        button4 = ttk.Button(self, text="USER", style="big.TButton",
-                             command=lambda: controller.show_frame(user))
+        # button4 = ttk.Button(self, text="USER", style="big.TButton",
+        #                      command=lambda: controller.show_frame(user))
 
         # putting the button in its place by
         # using grid
-        button4.pack(fill=BOTH, expand=True)
+        # button4.pack(fill=BOTH, expand=True)
 
         button5 = ttk.Button(self, text="RETURN", style="big.TButton",
                              command=lambda: controller.show_frame(rtrn))
@@ -836,7 +837,7 @@ class bill(tk.Frame):
             enable_button()
             textarea.delete(1.0, END)
             textarea.insert(END, "      Welcome")
-            textarea.insert(END, f"\nUser:\t{str(User.get())}")
+            textarea.insert(END, f"\n\t{str(User.get())}")
             textarea.insert(END, f"\nDate:\t{str(currentDateTime.date())}")
             textarea.insert(END, f"\n\nBill Number:\t{bill_no.get()}")
             textarea.insert(END, f"\nCustomer Name:\t{c_name.get()}")
@@ -903,37 +904,38 @@ class bill(tk.Frame):
 
         def additm():
             # clear()
-            if User.get() == "":
-                tkinter.messagebox.showerror("Error", "Please select the User")
-            else:
-                enable_button()
-                y = stdDatabase_BackEnd.additem(
-                    item.get(), color.get(), quantity.get())
-                print(y)
-                if(y != 0):
-                    n = Rate.get()
-                    m = float(quantity.get())*float(n)
-                    l.append(m)
-                    if item.get() != '':
-                        textarea.insert(
-                            (13.0+float(len(l)-1)), f"{item.get()} - {color.get()} - {quantity.get()} - {Rate.get()}  -  { m}\n")
-                    else:
-                        tkinter.messagebox.showerror(
-                            'Error', 'Please enter item')
+            # if User.get() == "":
+            #     tkinter.messagebox.showerror("Error", "Please select the User")
+            # else:
+            enable_button()
+            y = stdDatabase_BackEnd.additem(
+                item.get(), color.get(), quantity.get())
+            print(y)
+            if(y != 0):
+                n = Rate.get()
+                m = float(quantity.get())*float(n)
+                mnew = round(m, 2)
+                l.append(mnew)
+                if item.get() != '':
+                    textarea.insert(
+                        (13.0+float(len(l)-1)), f"{item.get()} - {color.get()} - {quantity.get()} - {Rate.get()}  -  { mnew}\n")
                 else:
                     tkinter.messagebox.showerror(
-                        'Error', 'Stock is insufficient!')
-                    clearall()
-                # c_name.set('')
-                # c_phone.set('')
-                item.set('')
-                Rate.set('')
-                quantity.set('')
-                color.set('')
-                disable_button()
+                        'Error', 'Please enter item')
+            else:
+                tkinter.messagebox.showerror(
+                    'Error', 'Stock is insufficient!')
+                clearall()
+            # c_name.set('')
+            # c_phone.set('')
+            item.set('')
+            Rate.set('')
+            quantity.set('')
+            color.set('')
+            disable_button()
 
         def gbill():
-            if c_name.get() == "" or c_phone.get() == "" or User.get() == "":
+            if c_name.get() == "" or c_phone.get() == "":
                 tkinter.messagebox.showerror(
                     "Error", "Customer detail are must")
             else:
@@ -944,7 +946,8 @@ class bill(tk.Frame):
                 textarea.insert(END, f"\n========================")
                 textarea.insert(END, f"\nTotal Paybill Amount :\t  {sum(l)}")
                 print(l)
-                textarea.insert(END, f"\n\n========================")
+                textarea.insert(
+                    END, f"\n\n========================\n\n\n\n\n\n.")
 
                 save_bill()
 
@@ -955,14 +958,14 @@ class bill(tk.Frame):
                     "--------------------------------------------------------------------------------------------"))
 
         def clearall():
-            l.clear()
-            c_name.set('')
-            c_phone.set('')
+            # l.clear()
+            # c_name.set('')
+            # c_phone.set('')
             item.set('')
             Rate.set('')
             quantity.set('')
             color.set('')
-            User.set("")
+            # User.set("")
             stdDatabase_BackEnd.clearcon()
             welcome()
 
@@ -1021,12 +1024,12 @@ class bill(tk.Frame):
             textarea1.delete(1.0, END)
             con = sqlite3.connect("StockEntry.db")
             cur = con.cursor()
-            if(User.get() == "Saleem"):
-                cur.execute("SELECT * FROM entry4 WHERE Usr='Saleem'")
-            elif(User.get() == "Rajeeb"):
-                cur.execute("SELECT * FROM entry4 WHERE Usr='Rajeeb'")
-            else:
-                cur.execute("SELECT * FROM entry4")
+            # if(User.get() == "Saleem"):
+            #     cur.execute("SELECT * FROM entry4 WHERE Usr='Saleem'")
+            # elif(User.get() == "Rajeeb"):
+            #     cur.execute("SELECT * FROM entry4 WHERE Usr='Rajeeb'")
+            # else:
+            cur.execute("SELECT * FROM entry4")
             res = cur.fetchall()
             textarea1.insert(END, "Bills\n \n")
             for row in res:
@@ -1123,10 +1126,10 @@ class bill(tk.Frame):
                              command=lambda: controller.show_frame(Home))
         button2.grid(row=4, column=0, padx=29, pady=10)
 
-        Radiobutton(F2, text="Saleem", variable=User, value="Saleem",
-                    indicator=0, background="white").grid(row=4, column=1, padx=0, pady=0)
-        Radiobutton(F2, text="Rajeeb", variable=User, value="Rajeeb",
-                    indicator=0, background="white").grid(row=4, column=2, padx=0, pady=0)
+        # Radiobutton(F2, text="Saleem", variable=User, value="Saleem",
+        #             indicator=0, background="white").grid(row=4, column=1, padx=0, pady=0)
+        # Radiobutton(F2, text="Rajeeb", variable=User, value="Rajeeb",
+        #             indicator=0, background="white").grid(row=4, column=2, padx=0, pady=0)
 
         scrollbar = Scrollbar(F4)
         scrollbar.grid(row=0, column=1, sticky='ns')
@@ -1143,170 +1146,170 @@ class bill(tk.Frame):
         # using grid
 
 
-class user(tk.Frame):
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-       # root=Tk()
-       # root.title("bill slip")
-       # root.geometry('1280x720')
-       # bg_color='#4D0039'
+# class user(tk.Frame):
+#     def __init__(self, parent, controller):
+#         tk.Frame.__init__(self, parent)
+#        # root=Tk()
+#        # root.title("bill slip")
+#        # root.geometry('1280x720')
+#        # bg_color='#4D0039'
 
-        Desc = StringVar()
-        uservar = StringVar()
-        Amount = IntVar()
+#         Desc = StringVar()
+#         uservar = StringVar()
+#         Amount = IntVar()
 
-        def Stdrec3(event):
-            global sd
-            searchstd = studentlist3.curselection()[0]
-            sd = studentlist3.get(searchstd)
-            # self.txttopay.delete(0,END)
-            # self.txtpaid.config(text = str(sd[7]) + "/" + str(sd[8]))
+#         def Stdrec3(event):
+#             global sd
+#             searchstd = studentlist3.curselection()[0]
+#             sd = studentlist3.get(searchstd)
+#             # self.txttopay.delete(0,END)
+#             # self.txtpaid.config(text = str(sd[7]) + "/" + str(sd[8]))
 
-            self.txttopay.delete(0, END)
-            self.txttopay.insert(END, sd[1])
-            self.txtpaid.delete(0, END)
-            self.txtpaid.insert(END, sd[2])
+#             self.txttopay.delete(0, END)
+#             self.txttopay.insert(END, sd[1])
+#             self.txtpaid.delete(0, END)
+#             self.txtpaid.insert(END, sd[2])
 
-        def usr():
+#         def usr():
 
-            stdDatabase_BackEnd.addusrs(
-                Desc.get(), Amount.get(), uservar.get())
-            studentlist3.delete(0, END)
-            studentlist3.insert(END, (Desc.get(), Amount.get(), uservar.get()))
-            self.txttopay.delete(0, END)
+#             stdDatabase_BackEnd.addusrs(
+#                 Desc.get(), Amount.get(), uservar.get())
+#             studentlist3.delete(0, END)
+#             studentlist3.insert(END, (Desc.get(), Amount.get(), uservar.get()))
+#             self.txttopay.delete(0, END)
 
-        def Viewbilltotal():
-            tbill = stdDatabase_BackEnd.Viewbilltotal(uservar.get())
-            studentlist3.delete(0, END)
-            studentlist3.insert(END, tbill)
+#         def Viewbilltotal():
+#             tbill = stdDatabase_BackEnd.Viewbilltotal(uservar.get())
+#             studentlist3.delete(0, END)
+#             studentlist3.insert(END, tbill)
 
-        def displayusrstotal():
+#         def displayusrstotal():
 
-            studentlist3.delete(0, END)
-            rownw = stdDatabase_BackEnd.Viewusrstotal(uservar.get())
-            studentlist3.insert(END, rownw)
+#             studentlist3.delete(0, END)
+#             rownw = stdDatabase_BackEnd.Viewusrstotal(uservar.get())
+#             studentlist3.insert(END, rownw)
 
-        def billpaid():
-            if(Amount.get() != None):
-                stdDatabase_BackEnd.billpaid(Amount.get(), uservar.get())
-                studentlist3.delete(0, END)
-                self.txttopay.delete(0, END)
+#         def billpaid():
+#             if(Amount.get() != None):
+#                 stdDatabase_BackEnd.billpaid(Amount.get(), uservar.get())
+#                 studentlist3.delete(0, END)
+#                 self.txttopay.delete(0, END)
 
-        def usrpaid():
-            if(Amount.get() != None):
-                stdDatabase_BackEnd.usrpaid(Amount.get(), uservar.get())
-                studentlist3.delete(0, END)
-                self.txttopay.delete(0, END)
+#         def usrpaid():
+#             if(Amount.get() != None):
+#                 stdDatabase_BackEnd.usrpaid(Amount.get(), uservar.get())
+#                 studentlist3.delete(0, END)
+#                 self.txttopay.delete(0, END)
 
-        # def usr2():
+#         # def usr2():
 
-        #     stdDatabase_BackEnd.amountpaid(Desc.get(),Amount.get(),uservar.get())
-        #     studentlist3.delete(0,END)
-        #     studentlist3.insert(END,(Desc.get(),Amount.get()))
-        #     self.txttopay.delete(0,END)
+#         #     stdDatabase_BackEnd.amountpaid(Desc.get(),Amount.get(),uservar.get())
+#         #     studentlist3.delete(0,END)
+#         #     studentlist3.insert(END,(Desc.get(),Amount.get()))
+#         #     self.txttopay.delete(0,END)
 
-        def displayusrs():
-            stdDatabase_BackEnd.Viewusrstotal(uservar.get())
-            studentlist3.delete(0, END)
-            for row in stdDatabase_BackEnd.Viewusrs(uservar.get()):
-                studentlist3.insert(END, row, str(
-                    "--------------------------------------------------------------------------------------------"))
+#         def displayusrs():
+#             stdDatabase_BackEnd.Viewusrstotal(uservar.get())
+#             studentlist3.delete(0, END)
+#             for row in stdDatabase_BackEnd.Viewusrs(uservar.get()):
+#                 studentlist3.insert(END, row, str(
+#                     "--------------------------------------------------------------------------------------------"))
 
-        def deldtl():
-            stdDatabase_BackEnd.deletusrRec(sd[0])
-            studentlist3.delete(0, END)
+#         def deldtl():
+#             stdDatabase_BackEnd.deletusrRec(sd[0])
+#             studentlist3.delete(0, END)
 
-        MainFrame = Frame(self, bg="snow3")
-        MainFrame.grid()
+#         MainFrame = Frame(self, bg="snow3")
+#         MainFrame.grid()
 
-        TitFrame = Frame(MainFrame, padx=0, pady=0, bg="snow3", relief=RIDGE)
-        TitFrame.pack(side=TOP)
+#         TitFrame = Frame(MainFrame, padx=0, pady=0, bg="snow3", relief=RIDGE)
+#         TitFrame.pack(side=TOP)
 
-        # self.canv = Canvas(TitFrame, width=250, height=70, bg='white')
-        # self.canv.grid(row=0,column=0)
+#         # self.canv = Canvas(TitFrame, width=250, height=70, bg='white')
+#         # self.canv.grid(row=0,column=0)
 
-        self.lblTit = Label(TitFrame, font=('arial', 25, 'bold'),
-                            text="AL-SAMS DATA MANAGEMENT SYSTEM", bg="snow")
-        self.lblTit.grid()
+#         self.lblTit = Label(TitFrame, font=('arial', 25, 'bold'),
+#                             text="AL-SAMS DATA MANAGEMENT SYSTEM", bg="snow")
+#         self.lblTit.grid()
 
-        ButtonFrame = Frame(MainFrame, width=1200, height=90,
-                            padx=1, pady=1, bg="snow3", relief=RIDGE)
-        ButtonFrame.pack(side=RIGHT)
+#         ButtonFrame = Frame(MainFrame, width=1200, height=90,
+#                             padx=1, pady=1, bg="snow3", relief=RIDGE)
+#         ButtonFrame.pack(side=RIGHT)
 
-        DataFrame = Frame(MainFrame, bd=1, width=1300, height=400,
-                          padx=20, pady=18, bg="snow3", relief=RIDGE)
-        DataFrame.pack(side=LEFT)
+#         DataFrame = Frame(MainFrame, bd=1, width=1300, height=400,
+#                           padx=20, pady=18, bg="snow3", relief=RIDGE)
+#         DataFrame.pack(side=LEFT)
 
-        DataFrameLEFT = LabelFrame(DataFrame, bd=1, width=500, height=200, padx=20, bg="gray60", fg="black", relief=RIDGE,
-                                   font=('arial', 20, 'bold'), text="Data Entry\n")
-        DataFrameLEFT.pack(side=TOP)
+#         DataFrameLEFT = LabelFrame(DataFrame, bd=1, width=500, height=200, padx=20, bg="gray60", fg="black", relief=RIDGE,
+#                                    font=('arial', 20, 'bold'), text="Data Entry\n")
+#         DataFrameLEFT.pack(side=TOP)
 
-        DataFrameRIGHT = LabelFrame(DataFrame, bd=1, width=500, height=200, padx=20, bg="gray30", fg="white", relief=RIDGE,
-                                    font=('arial', 15, 'bold'), text="Details\n    CT CR M L D")
-        DataFrameRIGHT.pack(side=BOTTOM)
+#         DataFrameRIGHT = LabelFrame(DataFrame, bd=1, width=500, height=200, padx=20, bg="gray30", fg="white", relief=RIDGE,
+#                                     font=('arial', 15, 'bold'), text="Details\n    CT CR M L D")
+#         DataFrameRIGHT.pack(side=BOTTOM)
 
-        self.lbltopay = Label(DataFrameLEFT, font=(
-            'arial', 20, 'bold'), text="Description :", padx=1, pady=3, bg="gray60")
-        self.lbltopay.grid(row=0, column=0, sticky=W)
-        self.txttopay = Entry(DataFrameLEFT, font=(
-            'arial', 20, 'bold'), textvariable=Desc, width=39)
-        self.txttopay.grid(row=0, column=1)
+#         self.lbltopay = Label(DataFrameLEFT, font=(
+#             'arial', 20, 'bold'), text="Description :", padx=1, pady=3, bg="gray60")
+#         self.lbltopay.grid(row=0, column=0, sticky=W)
+#         self.txttopay = Entry(DataFrameLEFT, font=(
+#             'arial', 20, 'bold'), textvariable=Desc, width=39)
+#         self.txttopay.grid(row=0, column=1)
 
-        self.lblpaid = Label(DataFrameLEFT, font=('arial', 20, 'bold'), text="Amount", padx=2, pady=5,
-                             bg="gray60")
-        self.lblpaid.grid(row=1, column=0, sticky=W)
-        self.txtpaid = Entry(DataFrameLEFT, font=(
-            'arial', 20, 'bold'),  textvariable=Amount, width=39)
-        self.txtpaid.grid(row=1, column=1)
+#         self.lblpaid = Label(DataFrameLEFT, font=('arial', 20, 'bold'), text="Amount", padx=2, pady=5,
+#                              bg="gray60")
+#         self.lblpaid.grid(row=1, column=0, sticky=W)
+#         self.txtpaid = Entry(DataFrameLEFT, font=(
+#             'arial', 20, 'bold'),  textvariable=Amount, width=39)
+#         self.txtpaid.grid(row=1, column=1)
 
-        Radiobutton(DataFrameLEFT, text="Saleem", variable=uservar, value="Saleem",
-                    indicator=0, background="white").grid(row=4, column=0, padx=0, pady=0)
-        Radiobutton(DataFrameLEFT, text="Rajeeb", variable=uservar, value="Rajeeb",
-                    indicator=0, background="white").grid(row=4, column=2, padx=0, pady=0)
+#         Radiobutton(DataFrameLEFT, text="Saleem", variable=uservar, value="Saleem",
+#                     indicator=0, background="white").grid(row=4, column=0, padx=0, pady=0)
+#         Radiobutton(DataFrameLEFT, text="Rajeeb", variable=uservar, value="Rajeeb",
+#                     indicator=0, background="white").grid(row=4, column=2, padx=0, pady=0)
 
-        btn1 = Button(ButtonFrame, text='Add item', font='arial 10 bold',
-                      command=usr, padx=5, pady=5, bg='grey', width=10)
-        btn1.grid(row=0, column=3, pady=25, padx=2)
-        lbtn = Button(ButtonFrame, text='Usr paid', font='arial 10 bold',
-                      padx=5, pady=5, command=usrpaid, bg='grey', width=10)
-        lbtn.grid(row=2, column=4, pady=25, padx=2)
-        btn2 = Button(ButtonFrame, text='Display', font='arial 10 bold',
-                      padx=5, pady=5, command=displayusrs, bg='grey', width=10)
-        btn2.grid(row=3, column=4, pady=25, padx=2)
-        btn3 = Button(ButtonFrame, text='Display Total', font='arial 10 bold',
-                      command=displayusrstotal, padx=5, pady=5, bg='grey', width=10)
-        btn3.grid(row=1, column=4, padx=2, pady=25,)
-        btn3 = Button(ButtonFrame, text='Delete', font='arial 10 bold',
-                      command=deldtl, padx=5, pady=5, bg='grey', width=10)
-        btn3.grid(row=3, column=3, padx=2, pady=25,)
-        btn4 = Button(ButtonFrame, text='Bill Total', font='arial 10 bold',
-                      command=Viewbilltotal, padx=5, pady=5, bg='grey', width=10)
-        btn4.grid(row=1, column=3, padx=2, pady=25,)
-        btn4 = Button(ButtonFrame, text='Bill Paid', font='arial 10 bold',
-                      command=billpaid, padx=5, pady=5, bg='grey', width=10)
-        btn4.grid(row=2, column=3, padx=2, pady=25,)
+#         btn1 = Button(ButtonFrame, text='Add item', font='arial 10 bold',
+#                       command=usr, padx=5, pady=5, bg='grey', width=10)
+#         btn1.grid(row=0, column=3, pady=25, padx=2)
+#         lbtn = Button(ButtonFrame, text='Usr paid', font='arial 10 bold',
+#                       padx=5, pady=5, command=usrpaid, bg='grey', width=10)
+#         lbtn.grid(row=2, column=4, pady=25, padx=2)
+#         btn2 = Button(ButtonFrame, text='Display', font='arial 10 bold',
+#                       padx=5, pady=5, command=displayusrs, bg='grey', width=10)
+#         btn2.grid(row=3, column=4, pady=25, padx=2)
+#         btn3 = Button(ButtonFrame, text='Display Total', font='arial 10 bold',
+#                       command=displayusrstotal, padx=5, pady=5, bg='grey', width=10)
+#         btn3.grid(row=1, column=4, padx=2, pady=25,)
+#         btn3 = Button(ButtonFrame, text='Delete', font='arial 10 bold',
+#                       command=deldtl, padx=5, pady=5, bg='grey', width=10)
+#         btn3.grid(row=3, column=3, padx=2, pady=25,)
+#         btn4 = Button(ButtonFrame, text='Bill Total', font='arial 10 bold',
+#                       command=Viewbilltotal, padx=5, pady=5, bg='grey', width=10)
+#         btn4.grid(row=1, column=3, padx=2, pady=25,)
+#         btn4 = Button(ButtonFrame, text='Bill Paid', font='arial 10 bold',
+#                       command=billpaid, padx=5, pady=5, bg='grey', width=10)
+#         btn4.grid(row=2, column=3, padx=2, pady=25,)
 
-        # button1 = ttk.Button(ButtonFrame, text ="stock",
-        #                     command = lambda : controller.show_frame(stock))
+#         # button1 = ttk.Button(ButtonFrame, text ="stock",
+#         #                     command = lambda : controller.show_frame(stock))
 
-        # # putting the button in its place by
-        # # using grid
-        # button1.grid(row = 3, column = 3,padx=90, pady = 10)
+#         # # putting the button in its place by
+#         # # using grid
+#         # button1.grid(row = 3, column = 3,padx=90, pady = 10)
 
-        # button to show frame 3 with text
-        # layout3
-        button2 = ttk.Button(ButtonFrame, text="Home",
-                             command=lambda: controller.show_frame(Home))
-        button2.grid(row=4, column=3, padx=29, pady=10)
+#         # button to show frame 3 with text
+#         # layout3
+#         button2 = ttk.Button(ButtonFrame, text="Home",
+#                              command=lambda: controller.show_frame(Home))
+#         button2.grid(row=4, column=3, padx=29, pady=10)
 
-        scrollbar = Scrollbar(DataFrameRIGHT)
-        scrollbar.grid(row=0, column=1, sticky='ns')
+#         scrollbar = Scrollbar(DataFrameRIGHT)
+#         scrollbar.grid(row=0, column=1, sticky='ns')
 
-        studentlist3 = tk.Listbox(DataFrameRIGHT, width=99, height=19, font=(
-            'arial', 12, 'bold'), yscrollcommand=scrollbar.set)
-        studentlist3.bind('<<ListboxSelect>>', Stdrec3)
-        studentlist3.grid(row=0, column=0, padx=8)
-        scrollbar.config(command=studentlist3.yview)
+#         studentlist3 = tk.Listbox(DataFrameRIGHT, width=99, height=19, font=(
+#             'arial', 12, 'bold'), yscrollcommand=scrollbar.set)
+#         studentlist3.bind('<<ListboxSelect>>', Stdrec3)
+#         studentlist3.grid(row=0, column=0, padx=8)
+#         scrollbar.config(command=studentlist3.yview)
 
 
 class rtrn(tk.Frame):
@@ -1407,10 +1410,10 @@ class rtrn(tk.Frame):
             'arial', 20, 'bold'), textvariable=rate, width=30)
         self.txtrate.grid(row=3, column=1)
 
-        Radiobutton(DataFrameLEFT, text="Saleem", variable=uservar, value="Saleem",
-                    indicator=0, background="white").grid(row=4, column=0, padx=0, pady=0)
-        Radiobutton(DataFrameLEFT, text="Rajeeb", variable=uservar, value="Rajeeb",
-                    indicator=0, background="white").grid(row=4, column=2, padx=0, pady=0)
+        # Radiobutton(DataFrameLEFT, text="Saleem", variable=uservar, value="Saleem",
+        #             indicator=0, background="white").grid(row=4, column=0, padx=0, pady=0)
+        # Radiobutton(DataFrameLEFT, text="Rajeeb", variable=uservar, value="Rajeeb",
+        #             indicator=0, background="white").grid(row=4, column=2, padx=0, pady=0)
 
         # ========================================================ScrollBar and ListBox===================================================================
         scrollbar = Scrollbar(DataFrameRIGHT)
@@ -1436,6 +1439,14 @@ class rtrn(tk.Frame):
         button2.grid(row=4, column=3, padx=29, pady=10)
 
 
-# Driver Code
-app = tkinterApp()
-app.mainloop()
+try:
+    urltoopen = tkinter.simpledialog.askstring(
+        'Password', 'Please enter your password')
+except:
+    sys.exit()
+
+if(urltoopen == "root123"):
+    app = tkinterApp()
+    app.mainloop()
+else:
+    sys.exit()

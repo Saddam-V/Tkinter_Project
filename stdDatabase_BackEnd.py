@@ -405,42 +405,42 @@ def billgenerated(CN="", PN="", CT="", CL="", Usr="", BN="", BA=""):
     currentDate = currentDateTime.date()
     # entrydata()
 
-    if(Usr == "Saleem"):
-        curuniq.execute(
-            "CREATE TABLE IF NOT EXISTS totalS (id INTEGER PRIMARY KEY, Topaybill INTEGER, Paidbill INTEGER, Topayusr INTEGER, Paidusr INTEGER, Date TIMESTAMP )")
-        try:
-            last_row2 = curuniq.execute(
-                'SELECT Topaybill from totalS').fetchall()[-1]
-        except:
-            last_row2 = (0,)
-        try:
-            last_topayusr = curuniq.execute(
-                'SELECT Topayusr from totalS').fetchall()[-1]
-        except:
-            last_topayusr = (0,)
-        newval2 = float(last_row2[0]) + float(BA)
-        curuniq.execute("INSERT into totalS VALUES (NULL,?,?,?,?,?)",
-                        (newval2, 0, last_topayusr[0], 0, currentDate))
-        # allvalue2 = curuniq.execute('SELECT * from total').fetchall()[-1]
-        # print(allvalue2)
-    elif(Usr == "Rajeeb"):
-        curuniq.execute(
-            "CREATE TABLE IF NOT EXISTS totalR (id INTEGER PRIMARY KEY, Topaybill INTEGER, Paidbill INTEGER, Topayusr INTEGER, Paidusr INTEGER, Date TIMESTAMP )")
-        try:
-            last_row2 = curuniq.execute(
-                'SELECT Topaybill from totalR').fetchall()[-1]
-        except:
-            last_row2 = (0,)
-        try:
-            last_topayusr = curuniq.execute(
-                'SELECT Topayusr from totalR').fetchall()[-1]
-        except:
-            last_topayusr = (0,)
-        newval2 = float(last_row2[0]) + float(BA)
-        curuniq.execute("INSERT into totalR VALUES (NULL,?,?,?,?,?)",
-                        (newval2, 0, last_topayusr[0], 0, currentDate))
-        # allvalue2 = curuniq.execute('SELECT * from total').fetchall()[-1]
-        # print(allvalue2)
+    # if(Usr == "Saleem"):
+    #     curuniq.execute(
+    #         "CREATE TABLE IF NOT EXISTS totalS (id INTEGER PRIMARY KEY, Topaybill INTEGER, Paidbill INTEGER, Topayusr INTEGER, Paidusr INTEGER, Date TIMESTAMP )")
+    #     try:
+    #         last_row2 = curuniq.execute(
+    #             'SELECT Topaybill from totalS').fetchall()[-1]
+    #     except:
+    #         last_row2 = (0,)
+    #     try:
+    #         last_topayusr = curuniq.execute(
+    #             'SELECT Topayusr from totalS').fetchall()[-1]
+    #     except:
+    #         last_topayusr = (0,)
+    #     newval2 = float(last_row2[0]) + float(BA)
+    #     curuniq.execute("INSERT into totalS VALUES (NULL,?,?,?,?,?)",
+    #                     (newval2, 0, last_topayusr[0], 0, currentDate))
+    # allvalue2 = curuniq.execute('SELECT * from total').fetchall()[-1]
+    # print(allvalue2)
+    # elif(Usr == "Rajeeb"):
+    curuniq.execute(
+        "CREATE TABLE IF NOT EXISTS totalR (id INTEGER PRIMARY KEY, Topaybill INTEGER, Paidbill INTEGER, Topayusr INTEGER, Paidusr INTEGER, Date TIMESTAMP )")
+    try:
+        last_row2 = curuniq.execute(
+            'SELECT Topaybill from totalR').fetchall()[-1]
+    except:
+        last_row2 = (0,)
+    try:
+        last_topayusr = curuniq.execute(
+            'SELECT Topayusr from totalR').fetchall()[-1]
+    except:
+        last_topayusr = (0,)
+    newval2 = float(last_row2[0]) + float(BA)
+    curuniq.execute("INSERT into totalR VALUES (NULL,?,?,?,?,?)",
+                    (newval2, 0, last_topayusr[0], 0, currentDate))
+    # allvalue2 = curuniq.execute('SELECT * from total').fetchall()[-1]
+    # print(allvalue2)
 
     # print("inif")
 
@@ -513,177 +513,177 @@ def additem(CT="", CL="", QT=""):
 
 ###############################################################   user   #########################################################
 
-def addusrs(Desc, Amnt, usr):
-    entrydata()
-    con = sqlite3.connect("StockEntry.db")
-    cur = con.cursor()
-    # if(usr==""):
-    #     tkinter.messagebox.showerror("Error", "Please select User")
-    # elif(usr=="Saleem"):
-    #     # val = cur.execute('SELECT Topay from total').fetchall()[-1]
-    #     last_row = cur.execute('SELECT Topaybill from totalS').fetchall()[-1]
-    #     last_topayusr = curuniq.execute('SELECT Topayusr from totalS').fetchall()[-1]
-    # elif(usr=="Rajeeb"):
-    #     last_row = cur.execute('SELECT Topaybill from totalR').fetchall()[-1]
-    #     last_topayusr = curuniq.execute('SELECT Topayusr from totalR').fetchall()[-1]
-    # if(usr=="Saleem"):
-    #     newusramnt=last_topayusr[0]+Amnt
+# def addusrs(Desc, Amnt, usr):
+#     entrydata()
+#     con = sqlite3.connect("StockEntry.db")
+#     cur = con.cursor()
+#     # if(usr==""):
+#     #     tkinter.messagebox.showerror("Error", "Please select User")
+#     # elif(usr=="Saleem"):
+#     #     # val = cur.execute('SELECT Topay from total').fetchall()[-1]
+#     #     last_row = cur.execute('SELECT Topaybill from totalS').fetchall()[-1]
+#     #     last_topayusr = curuniq.execute('SELECT Topayusr from totalS').fetchall()[-1]
+#     # elif(usr=="Rajeeb"):
+#     #     last_row = cur.execute('SELECT Topaybill from totalR').fetchall()[-1]
+#     #     last_topayusr = curuniq.execute('SELECT Topayusr from totalR').fetchall()[-1]
+#     # if(usr=="Saleem"):
+#     #     newusramnt=last_topayusr[0]+Amnt
 
-    if(usr == "Saleem"):
-        cur.execute("CREATE TABLE IF NOT EXISTS totalS (id INTEGER PRIMARY KEY, Topaybill INTEGER, Paidbill INTEGER, Topayusr INTEGER, Paidusr INTEGER, Date TIMESTAMP )")
-        try:
-            last_row2 = cur.execute(
-                'SELECT Topaybill from totalS').fetchall()[-1]
-            print("onesuccess")
-        except:
-            last_row2 = (0,)
-        try:
-            last_topayusr = cur.execute(
-                'SELECT Topayusr from totalS').fetchall()[-1]
-            print(last_topayusr)
-        except:
-            last_topayusr = (0,)
-            print("twosuccess")
-        print(last_topayusr[0])
-        print(Amnt)
-        newval2 = int(last_topayusr[0]) + int(Amnt)
-        print(newval2)
-        cur.execute("INSERT into totalS VALUES (NULL,?,?,?,?,?)",
-                    (last_row2[0], 0, newval2, 0, currentDate))
-        # allvalue2 = cur.execute('SELECT * from total').fetchall()[-1]
+#     if(usr == "Saleem"):
+#         cur.execute("CREATE TABLE IF NOT EXISTS totalS (id INTEGER PRIMARY KEY, Topaybill INTEGER, Paidbill INTEGER, Topayusr INTEGER, Paidusr INTEGER, Date TIMESTAMP )")
+#         try:
+#             last_row2 = cur.execute(
+#                 'SELECT Topaybill from totalS').fetchall()[-1]
+#             print("onesuccess")
+#         except:
+#             last_row2 = (0,)
+#         try:
+#             last_topayusr = cur.execute(
+#                 'SELECT Topayusr from totalS').fetchall()[-1]
+#             print(last_topayusr)
+#         except:
+#             last_topayusr = (0,)
+#             print("twosuccess")
+#         print(last_topayusr[0])
+#         print(Amnt)
+#         newval2 = int(last_topayusr[0]) + int(Amnt)
+#         print(newval2)
+#         cur.execute("INSERT into totalS VALUES (NULL,?,?,?,?,?)",
+#                     (last_row2[0], 0, newval2, 0, currentDate))
+#         # allvalue2 = cur.execute('SELECT * from total').fetchall()[-1]
 
-    elif(usr == "Rajeeb"):
-        cur.execute("CREATE TABLE IF NOT EXISTS totalR (id INTEGER PRIMARY KEY, Topaybill INTEGER, Paidbill INTEGER, Topayusr INTEGER, Paidusr INTEGER, Date TIMESTAMP )")
-        try:
-            last_row2 = cur.execute(
-                'SELECT Topaybill from totalR').fetchall()[-1]
-        except:
-            last_row2 = (0,)
-        try:
-            last_topayusr = cur.execute(
-                'SELECT Topayusr from totalR').fetchall()[-1]
-        except:
-            last_topayusr = (0,)
-        newval2 = float(last_topayusr[0]) + float(Amnt)
-        cur.execute("INSERT into totalR VALUES (NULL,?,?,?,?,?)",
-                    (last_row2[0], 0, newval2, 0, currentDate))
-        allvalue2 = cur.execute('SELECT * from totalS').fetchall()[-1]
-        allvalue = cur.execute('SELECT * from totalR').fetchall()[-1]
-    cur.execute("INSERT INTO entry5 VALUES (NULL,?,?,?,?)",
-                (Desc, Amnt, usr, currentDate))
-    con.commit()
-    con.close()
-
-
-def Viewusrs(user=""):
-    con = sqlite3.connect("StockEntry.db")
-    cur = con.cursor()
-    if(user == ""):
-        cur.execute("SELECT * FROM entry5")
-    elif(user != ""):
-        cur.execute("SELECT * FROM entry5 WHERE Usr=?", (user,))
-    row = cur.fetchall()
-    con.close()
-    return row
+#     elif(usr == "Rajeeb"):
+#         cur.execute("CREATE TABLE IF NOT EXISTS totalR (id INTEGER PRIMARY KEY, Topaybill INTEGER, Paidbill INTEGER, Topayusr INTEGER, Paidusr INTEGER, Date TIMESTAMP )")
+#         try:
+#             last_row2 = cur.execute(
+#                 'SELECT Topaybill from totalR').fetchall()[-1]
+#         except:
+#             last_row2 = (0,)
+#         try:
+#             last_topayusr = cur.execute(
+#                 'SELECT Topayusr from totalR').fetchall()[-1]
+#         except:
+#             last_topayusr = (0,)
+#         newval2 = float(last_topayusr[0]) + float(Amnt)
+#         cur.execute("INSERT into totalR VALUES (NULL,?,?,?,?,?)",
+#                     (last_row2[0], 0, newval2, 0, currentDate))
+#         allvalue2 = cur.execute('SELECT * from totalS').fetchall()[-1]
+#         allvalue = cur.execute('SELECT * from totalR').fetchall()[-1]
+#     cur.execute("INSERT INTO entry5 VALUES (NULL,?,?,?,?)",
+#                 (Desc, Amnt, usr, currentDate))
+#     con.commit()
+#     con.close()
 
 
-def Viewbilltotal(user=""):
-    con = sqlite3.connect("StockEntry.db")
-    cur = con.cursor()
-    if(user == ""):
-        tkinter.messagebox.showerror("Error", "Please select User")
-    elif(user == "Saleem"):
-        # val = cur.execute('SELECT Topay from total').fetchall()[-1]
-        val = cur.execute('SELECT Topaybill from totalS').fetchall()[-1]
-    elif(user == "Rajeeb"):
-        # val = cur.execute('SELECT Topay from total').fetchall()[-1]
-        val = cur.execute('SELECT Topaybill from totalR').fetchall()[-1]
-        # cur.execute("SELECT SUM(BA FROM entry4 WHERE Usr=?",(user,))
-        # val = cur.fetchone()
-    con.close()
-    print(val)
-    return val
+# def Viewusrs(user=""):
+#     con = sqlite3.connect("StockEntry.db")
+#     cur = con.cursor()
+#     if(user == ""):
+#         cur.execute("SELECT * FROM entry5")
+#     elif(user != ""):
+#         cur.execute("SELECT * FROM entry5 WHERE Usr=?", (user,))
+#     row = cur.fetchall()
+#     con.close()
+#     return row
 
 
-def Viewusrstotal(user=""):
-    con = sqlite3.connect("StockEntry.db")
-    cur = con.cursor()
-    if(user == ""):
-        pass
-    elif(user == "Saleem"):
-        row = cur.execute('SELECT Topayusr FROM totalS').fetchall()[-1]
-        print(row)
-    elif(user == "Rajeeb"):
-        row = cur.execute('SELECT Topayusr FROM totalR').fetchall()[-1]
-
-    con.close()
-    return row
-
-
-def billpaid(Paid="", Usr=""):
-    con = sqlite3.connect("StockEntry.db")
-    cur = con.cursor()
-    # cur.execute("SELECT Topay from total WHERE id=?",(idnew,))
-    if(Usr == "Saleem"):
-        last_row = cur.execute('SELECT Topaybill from totalS').fetchall()[-1]
-        last_topayusr = cur.execute(
-            'SELECT Topayusr from totalS').fetchall()[-1]
-    elif(Usr == "Rajeeb"):
-        last_row = cur.execute('SELECT Topaybill from totalR').fetchall()[-1]
-        last_topayusr = cur.execute(
-            'SELECT Topayusr from totalR').fetchall()[-1]
-
-    print(last_row)
-    newtopay = float(last_row[0]) - float(Paid)
-    if(Usr == "Saleem"):
-        cur.execute("INSERT into totalS VALUES (NULL,?,?,?,?,?)",
-                    (newtopay, Paid, last_topayusr[0], 0, currentDate))
-    elif(Usr == "Rajeeb"):
-        cur.execute("INSERT into totalR VALUES (NULL,?,?,?,?,?)",
-                    (newtopay, Paid, last_topayusr[0], 0, currentDate))
-    allvalue = cur.execute('SELECT * from totalS').fetchall()[-1]
-    allvalue1 = cur.execute('SELECT * from totalR').fetchall()[-1]
-    print(allvalue)
-    print(allvalue1)
-    con.commit()
-    con.close()
+# def Viewbilltotal(user=""):
+#     con = sqlite3.connect("StockEntry.db")
+#     cur = con.cursor()
+#     if(user == ""):
+#         tkinter.messagebox.showerror("Error", "Please select User")
+#     elif(user == "Saleem"):
+#         # val = cur.execute('SELECT Topay from total').fetchall()[-1]
+#         val = cur.execute('SELECT Topaybill from totalS').fetchall()[-1]
+#     elif(user == "Rajeeb"):
+#         # val = cur.execute('SELECT Topay from total').fetchall()[-1]
+#         val = cur.execute('SELECT Topaybill from totalR').fetchall()[-1]
+#         # cur.execute("SELECT SUM(BA FROM entry4 WHERE Usr=?",(user,))
+#         # val = cur.fetchone()
+#     con.close()
+#     print(val)
+#     return val
 
 
-def usrpaid(Paid="", Usr=""):
-    con = sqlite3.connect("StockEntry.db")
-    cur = con.cursor()
-    # cur.execute("SELECT Topay from total WHERE id=?",(idnew,))
-    if(Usr == "Saleem"):
-        last_row = cur.execute('SELECT Topaybill from totalS').fetchall()[-1]
-        last_topayusr = curuniq.execute(
-            'SELECT Topayusr from totalS').fetchall()[-1]
-    elif(Usr == "Rajeeb"):
-        last_row = cur.execute('SELECT Topaybill from totalR').fetchall()[-1]
-        last_topayusr = curuniq.execute(
-            'SELECT Topayusr from totalR').fetchall()[-1]
+# def Viewusrstotal(user=""):
+#     con = sqlite3.connect("StockEntry.db")
+#     cur = con.cursor()
+#     if(user == ""):
+#         pass
+#     elif(user == "Saleem"):
+#         row = cur.execute('SELECT Topayusr FROM totalS').fetchall()[-1]
+#         print(row)
+#     elif(user == "Rajeeb"):
+#         row = cur.execute('SELECT Topayusr FROM totalR').fetchall()[-1]
 
-    print(last_row)
-    newtopay = float(last_topayusr[0]) - float(Paid)
-    if(Usr == "Saleem"):
-        cur.execute("INSERT into totalS VALUES (NULL,?,?,?,?,?)",
-                    (last_row[0], Paid, newtopay, 0, currentDate))
-    elif(Usr == "Rajeeb"):
-        cur.execute("INSERT into totalR VALUES (NULL,?,?,?,?,?)",
-                    (last_row[0], Paid, newtopay, 0, currentDate))
-    # allvalue = cur.execute('SELECT * from totalS').fetchall()[-1]
-    # allvalue1 = cur.execute('SELECT * from totalR').fetchall()[-1]
-    # print(allvalue)
-    # print(allvalue1)
-    con.commit()
-    con.close()
+#     con.close()
+#     return row
 
 
-def deletusrRec(id):
-    con = sqlite3.connect("StockEntry.db")
-    cur = con.cursor()
-    cur.execute("DELETE FROM entry5 WHERE id=?", (id,))
-    con.commit()
-    con.close()
+# def billpaid(Paid="", Usr=""):
+#     con = sqlite3.connect("StockEntry.db")
+#     cur = con.cursor()
+#     # cur.execute("SELECT Topay from total WHERE id=?",(idnew,))
+#     if(Usr == "Saleem"):
+#         last_row = cur.execute('SELECT Topaybill from totalS').fetchall()[-1]
+#         last_topayusr = cur.execute(
+#             'SELECT Topayusr from totalS').fetchall()[-1]
+#     elif(Usr == "Rajeeb"):
+#         last_row = cur.execute('SELECT Topaybill from totalR').fetchall()[-1]
+#         last_topayusr = cur.execute(
+#             'SELECT Topayusr from totalR').fetchall()[-1]
+
+#     print(last_row)
+#     newtopay = float(last_row[0]) - float(Paid)
+#     if(Usr == "Saleem"):
+#         cur.execute("INSERT into totalS VALUES (NULL,?,?,?,?,?)",
+#                     (newtopay, Paid, last_topayusr[0], 0, currentDate))
+#     elif(Usr == "Rajeeb"):
+#         cur.execute("INSERT into totalR VALUES (NULL,?,?,?,?,?)",
+#                     (newtopay, Paid, last_topayusr[0], 0, currentDate))
+#     allvalue = cur.execute('SELECT * from totalS').fetchall()[-1]
+#     allvalue1 = cur.execute('SELECT * from totalR').fetchall()[-1]
+#     print(allvalue)
+#     print(allvalue1)
+#     con.commit()
+#     con.close()
+
+
+# def usrpaid(Paid="", Usr=""):
+#     con = sqlite3.connect("StockEntry.db")
+#     cur = con.cursor()
+#     # cur.execute("SELECT Topay from total WHERE id=?",(idnew,))
+#     if(Usr == "Saleem"):
+#         last_row = cur.execute('SELECT Topaybill from totalS').fetchall()[-1]
+#         last_topayusr = curuniq.execute(
+#             'SELECT Topayusr from totalS').fetchall()[-1]
+#     elif(Usr == "Rajeeb"):
+#         last_row = cur.execute('SELECT Topaybill from totalR').fetchall()[-1]
+#         last_topayusr = curuniq.execute(
+#             'SELECT Topayusr from totalR').fetchall()[-1]
+
+#     print(last_row)
+#     newtopay = float(last_topayusr[0]) - float(Paid)
+#     if(Usr == "Saleem"):
+#         cur.execute("INSERT into totalS VALUES (NULL,?,?,?,?,?)",
+#                     (last_row[0], Paid, newtopay, 0, currentDate))
+#     elif(Usr == "Rajeeb"):
+#         cur.execute("INSERT into totalR VALUES (NULL,?,?,?,?,?)",
+#                     (last_row[0], Paid, newtopay, 0, currentDate))
+#     # allvalue = cur.execute('SELECT * from totalS').fetchall()[-1]
+#     # allvalue1 = cur.execute('SELECT * from totalR').fetchall()[-1]
+#     # print(allvalue)
+#     # print(allvalue1)
+#     con.commit()
+#     con.close()
+
+
+# def deletusrRec(id):
+#     con = sqlite3.connect("StockEntry.db")
+#     cur = con.cursor()
+#     cur.execute("DELETE FROM entry5 WHERE id=?", (id,))
+#     con.commit()
+#     con.close()
 
 
 ########################################  Return  ##############################################################
@@ -722,7 +722,7 @@ def RtrnOrder(Cat="", Num="", Meter="", rate="", uservar=""):
     Paid = float(Meter)*float(rate)
     conn.commit()
     conn.close()
-    billpaid(Paid, uservar)
+    # billpaid(Paid, uservar)
 
 
 def DisplayReturn():
