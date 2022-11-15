@@ -1,0 +1,18 @@
+      Welcome
+User:	Saleem
+Date:	2022-08-15
+
+Bill Number:	144
+Customer Name:	123
+Phone Number:	123
+
+==============================
+Cat  Color  QTY  Rate  Price
+==============================
+1108 - 2 - 10 - 2  -  20.0
+
+
+========================
+Total Paybill Amount :	  20.0
+
+========================
