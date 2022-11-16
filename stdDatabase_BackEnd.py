@@ -501,7 +501,7 @@ def additem(CT="", CL="", QT=""):
         Tval = curuniq.execute(
             "SELECT Meter from entry2 WHERE Cat=? AND Num=?", (CT, CL))
         val = curuniq.fetchone()
-        print(val[0])
+        # print(val[0])
         if((float(val[0])-float(QT)) >= 0):
             Fval = float(val[0])-float(QT)
             curuniq.execute(

@@ -760,7 +760,7 @@ class rpay(tk.Frame):
             'arial', 12, 'bold'), fg="black", bg="seashell3", width=15, height=1, bd=4, command=amountpaid)
         self.btnAddData.grid(row=0, column=1, padx=10, pady=10)
 
-        self.btnDispay = Button(ButtonFrame, text="Add to payment List", font=(
+        self.btnDispay = Button(ButtonFrame, text="Add Rate", font=(
             'arial', 12, 'bold'), fg="black", bg="seashell3", width=21, height=1, bd=4, command=AddToPaylist)
         self.btnDispay.grid(row=1, column=1, padx=10, pady=10)
 
@@ -820,6 +820,7 @@ class bill(tk.Frame):
         item = StringVar()
         color = StringVar()
         Rate = StringVar()
+        Discount = StringVar()
         quantity = StringVar()
         Rate.set('')
         quantity.set('')
@@ -943,8 +944,11 @@ class bill(tk.Frame):
                 textAreaText = textarea.get(12.0, (13.0+float(len(l))))
                 welcome()
                 textarea.insert(END, textAreaText)
+                textarea.insert(END, f"\nTotal:\t{sum(l)}")
+                textarea.insert(END, f"\nDiscount:\t{Discount.get()}")
                 textarea.insert(END, f"\n========================")
-                textarea.insert(END, f"\nTotal Paybill Amount :\t  {sum(l)}")
+                textarea.insert(
+                    END, f"\nTotal Paybill Amount :\t  {sum(l)-float(Discount.get())}")
                 print(l)
                 textarea.insert(
                     END, f"\n\n========================\n\n\n\n\n\n.")
@@ -1095,19 +1099,24 @@ class bill(tk.Frame):
         rate_txt = Entry(F2, width=20, textvariable=Rate, font='arial 15 bold',
                          relief=SUNKEN, bd=7).grid(row=3, column=1, padx=1, pady=2)
 
+        discount = Label(F2, text='Discount', font=('times new romon', 18, 'bold'), bg=bg_color, fg='lightgreen').grid(
+            row=4, column=0, padx=3, pady=2)
+        discount_txt = Entry(F2, width=20, textvariable=Discount, font='arial 15 bold',
+                             relief=SUNKEN, bd=7).grid(row=4, column=1, padx=1, pady=2)
+
         # =========================Buttons======================
         btn1 = Button(F2, text='Add item', font='arial 10 bold',
                       command=additm, padx=5, pady=5, bg='grey', width=10)
-        btn1.grid(row=0, column=3, pady=25, padx=90)
+        btn1.grid(row=0, column=3, pady=15, padx=90)
         btn2 = Button(F2, text='Generate Bill', font='arial 10 bold',
                       padx=5, pady=5, command=gbill, bg='grey', width=10)
-        btn2.grid(row=1, column=3, pady=25, padx=90)
+        btn2.grid(row=1, column=3, pady=15, padx=90)
         btn3 = Button(F2, text='Clear', font='arial 10 bold',
                       command=clearall, padx=5, pady=5, bg='grey', width=10)
-        btn3.grid(row=2, column=3, padx=90, pady=25,)
+        btn3.grid(row=2, column=3, padx=90, pady=15,)
         btn4 = Button(F2, text='Display', font='arial 10 bold',
                       command=displaybills, pady=5, bg='grey', width=10)
-        btn4.grid(row=3, column=3, pady=25)
+        btn4.grid(row=3, column=3, pady=15)
 
         btn5 = Button(F3, text='Print bills', font='arial 10 bold',
                       command=printdatarpay, pady=5, bg='grey', width=10)
@@ -1118,13 +1127,13 @@ class bill(tk.Frame):
 
         # putting the button in its place by
         # using grid
-        button1.grid(row=4, column=3, padx=90, pady=10)
+        button1.grid(row=4, column=3, padx=90, pady=15)
 
         # button to show frame 3 with text
         # layout3
         button2 = ttk.Button(F2, text="Home",
                              command=lambda: controller.show_frame(Home))
-        button2.grid(row=4, column=0, padx=29, pady=10)
+        button2.grid(row=5, column=3, padx=90, pady=15)
 
         # Radiobutton(F2, text="Saleem", variable=User, value="Saleem",
         #             indicator=0, background="white").grid(row=4, column=1, padx=0, pady=0)
